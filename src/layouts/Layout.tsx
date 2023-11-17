@@ -7,7 +7,7 @@ interface Props { children: JSX.Element | JSX.Element[] }
 export default function Layout({ children }: Props){
     return (
         <div className="layout">
-            <BrowserRouter>
+            <BrowserRouter basename="/puerto-rico-companion">
                 <Header />
                 <div className="page">
                     {children}
