@@ -1,0 +1,35 @@
+@import "../../assets/variables.sass"
+
+#score-entry
+    display: flex
+    padding: 10px 16px
+    margin: 8px
+    border-radius: 8px
+    width: calc(50% - 52px)
+    justify-content: space-between
+    font-size: 20px
+    @media (max-width: $breakpoint-tablet)
+        width: 100%
+    &:nth-child(1)
+        background-color: $yellow
+    &:nth-child(2)
+        background-color: $green
+    &:nth-child(3)
+        background-color: $beige
+        color: black
+    &:nth-child(4)
+        background-color: $red
+    .label
+        text-transform: capitalize
+    .value-container
+        display: flex
+        .minus
+            margin-left: auto
+            cursor: pointer
+        .plus
+            cursor: pointer
+        input,.plus
+            margin-left: 16px
+        input
+            width: 26px
+            text-align: center
