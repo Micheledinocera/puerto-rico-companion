@@ -345,6 +345,5 @@ export const COSTI=Array.from({length: 3}, (_, i) => i + 1)
 
 // --- TODO ---
 /* 
-    risolvere problema zero in input
     risolvere problema routing
 */

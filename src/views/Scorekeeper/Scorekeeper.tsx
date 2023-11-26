@@ -9,7 +9,13 @@ export default function Scorekeeper() {
   const dispatch = useAppDispatch()
 
   const changeListener=useCallback((data: EntryProps)=>{
-    dispatch(setScore(data))
+    dispatch(setScore({
+        key: data.key,
+        value: 0
+    }))
+    setTimeout(()=>{
+      dispatch(setScore(data))
+    },10)
   },[dispatch])
 
   const total=useMemo(()=>{
