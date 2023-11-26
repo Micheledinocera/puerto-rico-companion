@@ -13,6 +13,7 @@ export default function Header() {
   return (
     <div id="header">
       <div className={selectedClass("/")} onClick={()=>navigate("/")}> Randomizer </div>
+      <div className={selectedClass("/edifici")} onClick={()=>navigate("/edifici")}> Edifici </div>
       <div className={selectedClass("/score")} onClick={()=>navigate("/score")}> Scorekeeper </div>
     </div>
   )

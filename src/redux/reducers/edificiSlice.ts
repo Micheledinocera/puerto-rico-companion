@@ -4,7 +4,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 export type Edificio = {
   rank:number,
   title:string,
-  costo:number
+  espansione:"base"|"edifici"|"nobili",
+  costo:number,
+  desc:string
 }
 
 export interface EdificioProduzione extends Edificio{

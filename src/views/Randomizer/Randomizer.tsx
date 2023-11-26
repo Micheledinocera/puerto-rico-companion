@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import "./Randomizer.sass"
-import { EDIFICI, EDIFICI_PRODUZIONE, PIANTAGIONI, fromEdificioToEdificioProduzione } from "utils/Utils";
+import { COSTI, EDIFICI, EDIFICI_PRODUZIONE, PIANTAGIONI, RANKS, fromEdificioToEdificioProduzione } from "utils/Utils";
 import { Edificio, EdificioProduzione, setEdifici } from "redux/reducers/edificiSlice";
 import { Festival, setFestival } from "redux/reducers/festivalSlice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
@@ -9,8 +9,6 @@ export default function Randomizer() {
   const edifici = useAppSelector((state) => state.edifici)
   const festival = useAppSelector((state) => state.festival)
   const dispatch = useAppDispatch()
-  const ranks=Array.from({length: 4}, (_, i) => i + 1)
-  const costi=Array.from({length: 3}, (_, i) => i + 1)
   
   const setupFestival=useCallback(()=>{
     let localFestival={} as Festival
@@ -27,10 +25,10 @@ export default function Randomizer() {
   const setupEdifici=useCallback(()=>{
     let edificiToChose:Edificio[] = [];
     let shuffledFilteredEdifici:Edificio[] = [];
-    ranks.forEach((rank)=>{
+    RANKS.forEach((rank)=>{
       let filteredEdifici:Edificio[] = [];
       if(rank<4)
-        costi.forEach((costo)=>{
+        COSTI.forEach((costo)=>{
           filteredEdifici = EDIFICI.filter(item=>item.costo===(costo+3*(rank-1)) && item.rank===rank);
           shuffledFilteredEdifici = filteredEdifici.sort(() => Math.random() - 0.5);
           edificiToChose=edificiToChose.concat(shuffledFilteredEdifici.slice(0, filteredEdifici.length/2));
@@ -47,7 +45,7 @@ export default function Randomizer() {
       return indexA-indexB
     })
     dispatch(setEdifici({value:edificiToChose}))
-  },[dispatch,ranks,costi])
+  },[dispatch])
 
   const initializeRandom=useCallback(()=>{
     setupEdifici();
@@ -58,12 +56,12 @@ export default function Randomizer() {
     <div id="randomizer">
       <button onClick={()=>initializeRandom()}> RANDOMIZZAMI </button>
       <div className="setup">
-        {ranks.map(rank=>
+        {RANKS.map(rank=>
           <div className="rank-container" key={"rank_"+rank}>
             <div className="label"> Rank {rank} </div>
               <div className="edifici">
                 {edifici.value.filter(edificio=>edificio.rank===rank).map(edificio=>
-                  <div className="edificio" key={"edificio_"+edificio.title}> {edificio.title} - {edificio.costo} </div>
+                  <div className={"edificio "+edificio.espansione} key={"edificio_"+edificio.title}> {edificio.title} - {edificio.costo} </div>
                 )}
               </div>
           </div>
@@ -84,7 +82,7 @@ export default function Randomizer() {
           </div>
           <div className="info">
             <div className="label"> Edificio: </div>
-            <div className={"value "+ festival.value.edificio.piantagione}> {festival.value.edificio.title} </div>
+            <div className={"value "+ festival.value.edificio.piantagione + " " + festival.value.edificio.espansione}> {festival.value.edificio.title} </div>
           </div>
         </div>
       </div>

@@ -30,6 +30,12 @@
                     background-color: $background-color-dark
                     padding: 8px
                     border-radius: 8px
+                    &.edifici
+                        color: $green
+                    &.base
+                        color: $beige
+                    &.nobili
+                        color: $red
     .festival
         margin: 8px
         .info
@@ -40,16 +46,31 @@
                 margin-left: 8px
                 font-weight: 700
                 text-transform: capitalize
-                color: $beige
+                &.edifici
+                    color: $green
+                &.nobili
+                    color: $red
                 span
                     margin-left: 8px
-            .mais
-                color: $yellow
-            .caffè
-                color: black
-            .tabacco
-                color: $brown
-            .frutta
-                color: $green
-            .zucchero
-                color: $white
+                &.base
+                    color: $beige
+                    &.mais
+                        color: $yellow
+                    &.caffè
+                        color: black
+                    &.tabacco
+                        color: $brown
+                    &.frutta
+                        color: $green
+                    &.zucchero
+                        color: $white
+                .mais
+                    color: $yellow
+                .caffè
+                    color: black
+                .tabacco
+                    color: $brown
+                .frutta
+                    color: $green
+                .zucchero
+                    color: $white

@@ -4,7 +4,7 @@ import { ChangeEvent, useCallback } from "react"
 
 export type ScoreEntryProps={
   entry:EntryProps,
-  changeListener: any
+  changeListener(entryProps:EntryProps): void
 }
 
 export type EntryProps={
