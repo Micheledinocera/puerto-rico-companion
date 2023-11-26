@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-// Define a type for the slice state
 export type Edificio = {
   rank:number,
   title:string,
   espansione:"base"|"edifici"|"nobili",
   costo:number,
-  desc:string
+  desc:string,
+  shortDesc:string
 }
 
 export interface EdificioProduzione extends Edificio{

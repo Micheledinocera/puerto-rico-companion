@@ -5,6 +5,7 @@
         position: fixed
         z-index: 1
         height: 100%
+        width: 100%
         background-color: rgba(0,0,0,0.5)
         top: 0
         .modal
@@ -21,5 +22,32 @@
                 font-weight: 700
                 font-size: 20px
             .name
-                padding-top: 20px
+                padding-top: 12px
                 padding-left: 20px
+            .content
+                padding: 20px
+                font-weight: 300
+                height: calc(100vh - 170px)
+                overflow: auto
+    .filters
+        display: flex
+        margin: 12px
+        justify-content: space-around
+    .rank-container
+        padding: 8px
+        .label
+            font-weight: 300
+        .edifici-container
+            margin-top: 6px
+            .edificio
+                margin-top: 4px
+                .desc
+                    font-size: 12px
+                    font-weight: 300
+                    color: white
+                &.base
+                    color: $beige
+                &.edifici
+                    color: $green
+                &.nobili
+                    color: $red
