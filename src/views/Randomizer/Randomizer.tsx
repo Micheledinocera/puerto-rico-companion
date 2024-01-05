@@ -1,16 +1,25 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./Randomizer.sass"
 import { COSTI, EDIFICI, EDIFICI_PRODUZIONE, PIANTAGIONI, RANKS, fromEdificioToEdificioProduzione } from "utils/Utils";
 import { Edificio, EdificioProduzione, setEdifici } from "redux/reducers/edificiSlice";
 import { Festival, setFestival } from "redux/reducers/festivalSlice";
+import { setCode } from "redux/reducers/codeSlice";
+import QRCode from "react-qr-code";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 
 export default function Randomizer() {
   let localEdifici=useRef([] as Edificio[]);
+  const [codeModal,setCodeModal]=useState<boolean>(false);
   const edifici = useAppSelector((state) => state.edifici)
   const festival = useAppSelector((state) => state.festival)
+  const code = useAppSelector((state) => state.code)
+  const { search } = useLocation();
+
   const dispatch = useAppDispatch()
-  
+
+  const useQuery=useMemo(() => new URLSearchParams(search), [search]);
+
   const setupFestival=useCallback(()=>{
     let localFestival={} as Festival
     localFestival.piantagione= PIANTAGIONI[Math.floor(Math.random()*PIANTAGIONI.length)];
@@ -22,6 +31,16 @@ export default function Randomizer() {
     localFestival.edificio=edificiFiltered[Math.floor(Math.random()*edificiFiltered.length)];
     dispatch(setFestival({value:localFestival}))
   },[dispatch,localEdifici])
+
+  const createCode=useCallback(()=>{
+    let localCode="";
+    localEdifici.current.forEach(localEdificio => {
+      localCode+=EDIFICI.findIndex(edificio=>edificio.title===localEdificio.title)
+      localCode+="_"
+    });
+    localCode=localCode.substring(0,localCode.length-1)
+    dispatch(setCode({value:localCode}));
+  },[localEdifici,dispatch])
 
   const setupEdifici=useCallback(()=>{
     let edificiToChose:Edificio[] = [];
@@ -46,17 +65,47 @@ export default function Randomizer() {
       return indexA-indexB
     })
     localEdifici.current=edificiToChose;
-    dispatch(setEdifici({value:edificiToChose}))
-  },[dispatch,localEdifici])
+    dispatch(setEdifici({value:edificiToChose}));
+    createCode();
+  },[dispatch,createCode,localEdifici])
 
   const initializeRandom=useCallback(()=>{
     setupEdifici();
     setupFestival();
   },[setupEdifici,setupFestival])
-  
+
+  const codeUrl=useMemo(()=> window.location.origin+window.location.pathname+"#/?code="+code.value ,[code])
+
+  useEffect(() => {
+    if(useQuery.get("code")){
+      dispatch(setCode({value:useQuery.get("code")??""}))
+      localEdifici.current=(useQuery.get("code")??"").split("_").map(index=>EDIFICI[parseInt(index)])
+      dispatch(setEdifici({value:localEdifici.current}));
+      setupFestival();
+    } else if(edifici.value.length===0){
+      initializeRandom();
+    }
+  },[dispatch,code,localEdifici,useQuery,setupFestival,initializeRandom]);
+
   return (
     <div id="randomizer">
-      <button onClick={()=>initializeRandom()}> RANDOMIZZAMI </button>
+      {codeModal &&
+        <div className="modal-overlay" onClick={()=>setCodeModal(false)}>
+          <div className="modal" onClick={(evt)=>evt.stopPropagation()}>
+            <div className="close" onClick={()=>setCodeModal(false)}> X </div>
+            <div className="name"> <span>Click here</span> to copy url or show the qrcode </div>
+            <div className="content"> <QRCode value={codeUrl} /> </div>
+          </div>
+        </div>
+      }
+      <div className="button-container">
+        <button onClick={()=>initializeRandom()}> {"RANDOMIZZAMI"} </button>
+        {code.value!=="" &&
+          <div className="show-code" onClick={()=>setCodeModal(true)}>
+            Share Code
+          </div>
+        }
+      </div>
       <div className="setup">
         {RANKS.map(rank=>
           <div className="rank-container" key={"rank_"+rank}>

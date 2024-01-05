@@ -2,15 +2,34 @@
 
 #randomizer
     margin: 8px
-    button
-        margin: 20px auto
+    @include modal-mixin()
+    .modal-overlay
+        .modal
+            .name
+                padding-top: 42px
+                text-align: center
+                span
+                    font-weight: 700
+                    cursor: pointer
+            .content
+                display: flex
+                justify-content: center
+    .button-container
         display: flex
-        background-color: white
-        border: none
-        border-radius: 8px
-        padding: 8px
-        font-weight: 900
-        cursor: pointer
+        button
+            margin: 20px auto
+            display: flex
+            background-color: white
+            border: none
+            border-radius: 8px
+            padding: 8px
+            font-weight: 900
+            cursor: pointer
+        .show-code
+            cursor: pointer
+            align-items: center
+            display: flex
+            margin: auto
     .setup 
         margin: 8px
         .rank-container

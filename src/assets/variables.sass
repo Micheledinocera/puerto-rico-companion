@@ -9,3 +9,36 @@ $green: #15c168
 $white: #DBE2E6
 $beige: #F4E7C7
 $red: #870c0f
+
+
+@mixin modal-mixin()
+    .modal-overlay
+        position: fixed
+        z-index: 1
+        height: 100%
+        width: 100%
+        background-color: rgba(0,0,0,0.5)
+        top: 0
+        left: 0
+        .modal
+            border-radius: 8px
+            background-color: $background-color
+            width: 80%
+            height: calc(100% - 80px)
+            margin: 40px auto
+            .close
+                position: absolute
+                right: 14%
+                margin-top: 10px
+                color: $red
+                font-weight: 700
+                font-size: 20px
+                cursor: pointer
+            .name
+                padding-top: 12px
+                padding-left: 20px
+            .content
+                padding: 20px
+                font-weight: 300
+                height: calc(100vh - 170px)
+                overflow: auto

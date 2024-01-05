@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import scoreSlice from './reducers/scoreSlice'
+import codeSlice from './reducers/codeSlice'
 import edificiSlice from './reducers/edificiSlice'
 import festivalSlice from './reducers/festivalSlice'
 
@@ -7,6 +8,7 @@ export const store = configureStore({
   reducer:{
     score: scoreSlice,
     edifici: edificiSlice,
+    code: codeSlice,
     festival: festivalSlice
   }
 })
