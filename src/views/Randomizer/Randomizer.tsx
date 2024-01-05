@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import "./Randomizer.sass"
 import { COSTI, EDIFICI, EDIFICI_PRODUZIONE, PIANTAGIONI, RANKS, fromEdificioToEdificioProduzione } from "utils/Utils";
 import { Edificio, EdificioProduzione, setEdifici } from "redux/reducers/edificiSlice";
@@ -6,6 +6,7 @@ import { Festival, setFestival } from "redux/reducers/festivalSlice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 
 export default function Randomizer() {
+  let localEdifici=useRef([] as Edificio[]);
   const edifici = useAppSelector((state) => state.edifici)
   const festival = useAppSelector((state) => state.festival)
   const dispatch = useAppDispatch()
@@ -16,11 +17,11 @@ export default function Randomizer() {
     const shuffledPiantagioni=PIANTAGIONI.sort(() => Math.random() - 0.5);
     localFestival.merci=shuffledPiantagioni.slice(0,3);
     let edificiFiltered=[] as EdificioProduzione[]
-    edificiFiltered=edificiFiltered.concat(EDIFICI.filter(edificio=>edificio.rank===3).map(edificio=>fromEdificioToEdificioProduzione(edificio)));
+    edificiFiltered=edificiFiltered.concat(localEdifici.current.filter(edificio=>edificio.rank===3).map(edificio=>fromEdificioToEdificioProduzione(edificio)));
     edificiFiltered=edificiFiltered.concat(EDIFICI_PRODUZIONE.filter(edificio=>edificio.rank===3 && edificio.piantagione!==localFestival.piantagione));
     localFestival.edificio=edificiFiltered[Math.floor(Math.random()*edificiFiltered.length)];
     dispatch(setFestival({value:localFestival}))
-  },[dispatch])
+  },[dispatch,localEdifici])
 
   const setupEdifici=useCallback(()=>{
     let edificiToChose:Edificio[] = [];
@@ -44,8 +45,9 @@ export default function Randomizer() {
       const indexB=EDIFICI.findIndex(edificio=>edificio.title===b.title)
       return indexA-indexB
     })
+    localEdifici.current=edificiToChose;
     dispatch(setEdifici({value:edificiToChose}))
-  },[dispatch])
+  },[dispatch,localEdifici])
 
   const initializeRandom=useCallback(()=>{
     setupEdifici();
