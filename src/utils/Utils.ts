@@ -225,7 +225,7 @@ export const EDIFICI_NOBILI : Edificio[]=[{
     rank:1,
     espansione:"nobili",
     desc:"Al proprio turno durante la fase del commercio, il proprietario di un Ufficio Territoriale può pagare 1 moneta per comprare la Piantagione in cima a una delle pile coperte e posizionarla sulla propria Isola (se l'Ufficio Territoriale è occupato da un Lavoratore) oppure mettere una qualsiasi delle sue Piantagioni nella pila degli scarti e guadagnare 1 moneta (se l'Ufficio Territoriale è occupato da un Borghese). Nota: se il proprietario di un Ufficio Territoriale possiede anche un Magazzino del Legname, può scegliere di giocare la Piantagione anche come una Foresta. Se la Piantagione scartata è occupata da un Lavoratore o un Borghese, questo verrà collocato sul ritratto (così come nel caso dell'Ente Parco). ",
-    shortDesc:"Vendere (lavoratore) o comprare (nobile) 1 Piantagione nella fase di commercio"
+    shortDesc:"Comprare (lavoratore) o vendere (nobile) 1 Piantagione nella fase di commercio"
 },{
     title:"Cappella",
     costo:3,
